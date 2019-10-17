@@ -115,7 +115,11 @@ class Team:
             for hero in self.heroes:
                 print(hero.name)
 
-    # def attack(self, other_team):
+    def attack(self, other_team):
+        while len(self.is_hero_alive()) > 0 and len(other_team.is_hero_alive()) > 0:
+            random_hero = random.choice(self.is_hero_alive())
+            random_opponent = random.choice(other_team.is_hero_alive())
+            random_hero.fight(random_opponent)
 
     def is_team_alive(self):
         is_team_alive = []
@@ -189,7 +193,7 @@ class Arena:
         while self.team_one.is_team_alive() == True and self.team_two.is_team_alive() == True:
             self.team_one.attack(self.team_two)
             self.team_two.attack(self.team_one)
-        # Look into replacing "Team One" and "Team Two" with the names you entered
+        # Look into replacing "Team One" and "Team Two" with the names entered
         if len(self.team_one.heroes) <= 0:
             print("Team One Wins!")
         else:
@@ -202,26 +206,19 @@ class Arena:
         self.team_two.stats()
 
 if __name__ == "__main__":
+    game_is_running = True
     arena = Arena()
+
     arena.build_team_one()
     arena.build_team_two()
-    arena.team_battle()
-    arena.show_stats()
 
-# if __name__ == "__main__":
-#     game_is_running = True
-#     arena = Arena()
-#
-#     arena.build_team_one()
-#     arena.build_team_two()
-#
-#     while game_is_running:
-#         arena.team_battle()
-#         arena.show_stats()
-#         play_again = input("Play Again? Y or N >")
-#
-#         if play_again.lower() == "n":
-#             game_is_running = False
-#         else:
-#             arena.team_one.revive_heroes()
-#             arena.team_two.revive_heroes()
+    while game_is_running:
+        arena.team_battle()
+        arena.show_stats()
+        play_again = input("Play Again? Y or N >")
+
+        if play_again.lower() == "n":
+            game_is_running = False
+        else:
+            arena.team_one.revive_heroes()
+            arena.team_two.revive_heroes()
